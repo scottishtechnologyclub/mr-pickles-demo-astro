@@ -1,0 +1,34 @@
+---
+/**
+ * Pinned repos are only available via the Github GraphQL API
+ */
+const response = await fetch("https://api.github.com/graphql", {
+  method: "POST",
+  headers: { "Content-Type": "application/json",
+"Authorization": `Bearer ${import.meta.env.GITHUB_PAT}` },
+  body: JSON.stringify({
+    query: `
+      {
+        user(login: "jamiemchale") {
+          pinnedItems(first: 6, types: REPOSITORY) {
+            nodes {
+              ... on Repository {
+                name
+                description
+                url
+              }
+            }
+          }
+        }
+      }
+      `,
+  }),
+});
+
+const { data : { user : { pinnedItems: { nodes: pins} }}} = await response.json();
+---
+
+{pins.map(pin => <div class="bg-white rounded-sm drop-shadow-sm text-black p-4">
+  <a href={pin.url} class="underline text-mrpickles-muted decoration-2 underline-offset-2 decoration-mrpickles-accent inline-block mb-2 text-lg font-bold">{pin.name}</a>
+  <p>{pin.description}</p>
+  </div>)}

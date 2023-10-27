@@ -1,0 +1,40 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { format, isBefore } from "date-fns";
+import GithubPinnedRepos from "../components/GithubPinnedRepos.astro";
+import GithubStarredRepos from "../components/GithubStarredRepos.astro";
+import PageTitle from "@components/PageTitle.astro";
+
+const allBlogPosts = await getCollection("devblog");
+allBlogPosts.sort((a, b) => {
+  return isBefore(b.data.date, a.data.date) ? -1 : 1;
+});
+---
+
+<Layout title="Dev Blog">
+  <PageTitle>Software Development</PageTitle>
+  <ul
+    class="mx-auto max-w-prose px-4 md:px-0 mt-12 prose prose-mrpickles a:underline"
+  >
+    {
+      allBlogPosts.map((b) => (
+        <li>
+          {format(b.data.date, "MMM do yyyy")}{" "}
+          <a
+            href={`/dev/${b.slug}`}
+            class="ml-2 underline decoration-2 underline-offset-2 decoration-mrpickles-accent"
+          >
+            {b.data.title}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <div class="max-w-prose mx-auto my-12 px-4 md:px-0">
+    <h2 class="mb-2 font-semibold">Pinned Repos</h2>
+    <GithubPinnedRepos />
+    <h2 class="mt-4 mb-2 font-semibold">Starred Repos</h2>
+    <GithubStarredRepos />
+  </div>
+</Layout>

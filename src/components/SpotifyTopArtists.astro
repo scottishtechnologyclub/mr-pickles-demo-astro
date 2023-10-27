@@ -1,0 +1,23 @@
+---
+import { Image } from "astro:assets";
+import { getTopArtists } from "../lib/spotify";
+
+const { items } = await getTopArtists();
+---
+
+<ul class="flex flex-wrap text-sm justify-center">
+  {
+    items.map((t) => (
+      <li class="flex p-1 pr-2 m-2 rounded-lg items-center bg-mrpickles-secondary">
+        <Image
+          src={t.images[0].url}
+          alt={t.name}
+          width={t.images[0].width}
+          height={t.images[0].height}
+          class="w-auto h-8 rounded-lg mr-2"
+        />
+        <div>{t.name}</div>
+      </li>
+    ))
+  }
+</ul>

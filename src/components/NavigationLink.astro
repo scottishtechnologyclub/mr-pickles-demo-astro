@@ -1,0 +1,29 @@
+---
+interface Props {
+  href: string;
+}
+
+const { href } = Astro.props;
+const pathName = new URL(Astro.request.url).pathname;
+const pathSegments = pathName.split("/").filter(Boolean);
+const hrefSegments = href.split("/").filter(Boolean);
+
+const isParentPath =
+  hrefSegments.length >= 1
+    ? hrefSegments.every((segment, index) => {
+        return segment === pathSegments[index];
+      })
+    : href === pathName;
+
+const isSamePath = isParentPath && hrefSegments.length === pathSegments.length;
+---
+<a
+  href={href}
+  class:list={[
+    isParentPath ? "underline" : "",
+    isSamePath ? "text-white" : "text-mrpickles-text",
+    "decoration-mrpickles-accent decoration-2 font-light underline-offset-4 text-lg inline-block mr-4 hover:text-white hover:underline",
+  ]}
+>
+  <slot />
+</a>

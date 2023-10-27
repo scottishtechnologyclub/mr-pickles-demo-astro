@@ -1,51 +1,46 @@
 ---
 interface Props {
-	title: string;
+  title: string;
+  hideTitle?: boolean;
 }
 
+import "@fontsource/luckiest-guy";
+import NavigationLink from "../components/NavigationLink.astro";
 const { title } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="A personal website" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-mrpickles-bg text-mrpickles-text">
+    <header class="mx-auto max-w-prose px-4 md:px-0">
+      <h1 class="text-3xl font-bold pt-6 pb-2 font-['Luckiest_Guy']">
+        Mr Pickles
+      </h1>
+      <nav class="flex justify-start overflow-y-scroll mb-6">
+        <NavigationLink href="/">Home</NavigationLink>
+
+        <NavigationLink href="/now">Now</NavigationLink>
+
+        <NavigationLink href="/dev">Dev</NavigationLink>
+      </nav>
+    </header>
+    <slot />
+    <footer class="px-4 md:px-0 my-12">
+      <div class="max-w-prose mx-auto pt-4 border-t border-t-neutral-300">
+        Astro demo website for the fictitious Mr Pickles
+      </div>
+    </footer>
+  </body>
 </html>
 <style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: #13151a;
-		background-size: 224px;
-	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
-	}
+  :root {
+  }
 </style>

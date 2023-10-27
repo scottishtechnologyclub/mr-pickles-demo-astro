@@ -1,0 +1,33 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import "@fontsource/luckiest-guy";
+import PageTitle from "@components/PageTitle.astro";
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection("devblog");
+  return blogEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<Layout title={entry.data.title}>
+  <PageTitle>
+    {entry.data.title}
+  </PageTitle>
+  <div class="prose prose-mrpickles mx-auto px-4">
+    <Content />
+  </div>
+</Layout>
+
+
+<style is:global>
+  .astro-code {
+    border: 4px solid white !important;
+  }
+</style>

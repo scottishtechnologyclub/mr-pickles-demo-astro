@@ -1,0 +1,18 @@
+---
+const response = await fetch("https://api.github.com/users/jamiemchale/starred", {
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${import.meta.env.GITHUB_PAT}`,
+  },
+});
+
+const stars = await response.json();
+
+---
+
+
+{stars.slice(0, 10).map(star => <div class="bg-white rounded-sm drop-shadow-sm text-black p-4 mb-3">
+  <a href={star.html_url} class="underline text-mrpickles-muted decoration-2 underline-offset-2 decoration-mrpickles-accent inline-block mb-2 text-lg font-bold">{star.name}</a>
+  <p>{star.description}</p>
+  </div>)}
